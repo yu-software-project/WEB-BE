@@ -1,0 +1,71 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Build with Gradle
+        env:
+          ORG_GRADLE_OPTS: "-Duser.timezone=Asia/Seoul"
+        run: ./gradlew clean bootJar -x test
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ secrets.AWS_REGION }}
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} .
+          docker tag ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} ${{ secrets.ECR_REPOSITORY }}:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
+
+      - name: SSH to EC2 and deploy Docker container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }})
+            docker pull ${{ secrets.ECR_REPOSITORY }}:latest
+            docker network create challengeSemester || true
+            docker stop mysql-container || true
+            docker rm mysql-container || true
+            docker stop springboot-container || true
+            docker rm springboot-container || true
+            
+            docker run --name mysql-container \
+              --network challengeSemester \
+              -e MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e MYSQL_DATABASE=chm \
+              -e MYSQL_USER=${{ secrets.DB_USERNAME }} \
+              -e MYSQL_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -d mysql:8.0.34
+            
+            docker run --env-file .env \
+              --network challengeSemester \
+              -d -p 8080:8080 \
+              --name springboot-container \
+              ${{ secrets.ECR_REPOSITORY }}:latest
