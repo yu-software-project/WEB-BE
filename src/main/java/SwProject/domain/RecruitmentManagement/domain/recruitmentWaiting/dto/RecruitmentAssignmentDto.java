@@ -18,4 +18,5 @@ public class RecruitmentAssignmentDto {
     private Recruitment recruitment;
     private Volunteer volunteer;
     private List<LocalDate> recruitmentDates;
+    private String selfIntroduction;
 }

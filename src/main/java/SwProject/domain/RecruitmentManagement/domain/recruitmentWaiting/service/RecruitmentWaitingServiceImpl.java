@@ -1,7 +1,9 @@
 package SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.service;
 
+import SwProject.Exception.collections.business.WaitingUserNotFoundException;
 import SwProject.domain.RecruitmentManagement.domain.recruitment.dto.RequestVolunteersByDate;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentAssignmentDto;
+import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentWaitingUserInfoDto;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.repository.RecruitmentWaitingRepository;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
                 .volunteer(recruitmentAssignmentDto.getVolunteer())
                 .recruitment(recruitmentAssignmentDto.getRecruitment())
                 .recruitmentDates(recruitmentAssignmentDto.getRecruitmentDates())
+                .selfIntroduction(recruitmentAssignmentDto.getSelfIntroduction())
                 .build();
 
         recruitmentWaitingRepository.save(recruitmentWaiting);
@@ -50,5 +54,25 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
     @Override
     public boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto) {
         return recruitmentWaitingRepository.isDuplicateRecruitment(volunteer, requestAssignmentDto);
+    }
+
+    @Override
+    public RecruitmentWaitingUserInfoDto showWaitingUserDetailInfo(Long userId) {
+        Optional<RecruitmentWaiting> recruitmentWaiting = recruitmentWaitingRepository.findByVolunteerId(userId);
+
+        if(!recruitmentWaiting.isPresent()){
+            throw new WaitingUserNotFoundException();
+        }
+
+        Volunteer foundVolunteer = recruitmentWaiting.get().getVolunteer();
+
+        RecruitmentWaitingUserInfoDto recruitmentWaitingUserInfoDto = new RecruitmentWaitingUserInfoDto(
+                foundVolunteer.getName(),
+                foundVolunteer.getGender(),
+                foundVolunteer.getFormattedBirthDate(),
+                foundVolunteer.getPhoneNum(),
+                recruitmentWaiting.get().getSelfIntroduction());
+
+        return recruitmentWaitingUserInfoDto;
     }
 }

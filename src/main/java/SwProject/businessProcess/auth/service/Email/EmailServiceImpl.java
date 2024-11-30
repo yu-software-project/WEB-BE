@@ -66,4 +66,12 @@ public class EmailServiceImpl implements EmailService {
             throw new NotMatchVerificatonCodeByEmail();  //번호 다른 경우 에러 필요
     }
 
+    @Override
+    public void sendCenterRegisterNotApprovalReason(String adminEmail, String reason) throws MessagingException {
+        String htmlContent = String.format("<p>%s</p>", reason);
+        String subject = "안녕하십니까. 아지트에서 송신 드립니다.";
+
+        sendEmail(adminEmail, subject, htmlContent);
+    }
+
 }

@@ -1,5 +1,6 @@
 package SwProject.SpringSecurity;
 
+import SwProject.Exception.collections.business.NotApprovalException;
 import SwProject.domain.manager.model.Manager;
 import SwProject.domain.manager.repository.ManagerRepository;
 import SwProject.domain.volunteer.model.Volunteer;
@@ -26,6 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             // 이메일로 Manager 로드
             Manager manager = managerRepository.findByEmailId(identifier)
                     .orElseThrow(() -> new UsernameNotFoundException("Manager Not Found"));
+            if(manager.getApprovalStatus()==Manager.ApprovalStatus.NOT_APPROVED) {
+                throw new NotApprovalException();
+            }
             return new UserDetailsImpl(manager.getEmailId(), manager.getRole().name());
         } else {
             // 전화번호로 Volunteer 로드

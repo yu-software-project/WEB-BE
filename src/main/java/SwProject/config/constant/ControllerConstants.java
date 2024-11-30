@@ -12,6 +12,9 @@ public class ControllerConstants {
     public static final String completeAcceptVolunteer = "봉사공고 신청이 승인되었습니다.";
     public static final String completeDeleteAcceptanceVolunteer = "해당 승인자의 봉사공고 신청이 삭제되었습니다.";
     public static final String completeDeleteWaitingVolunteer = "해당 대기자의 봉사공고 신청이 삭제되었습니다.";
-    public static final String completeAddLikeCenter = "관심 등록 보육원으로 등록 완료 되었습니다.";
+    public static final String completeAddLikeCenter = "관심 등록 기관으로 등록 완료 되었습니다.";
     public static final String completeScrapRecruitment = "해당 공고글 스크랩 완료 되었습니다.";
+    public static final String completeDeleteCenterByAdmin = "해당 기관의 비활성화 처리가 완료되었습니다.";
+    public static final String completePermitCenter = "해당 기관의 회원가입 요청이 승인되었습니다.";
+    public static final String completeNotPermitCenter = "해당 기관의 회원가입 요청이 거부되었습니다.";
 }

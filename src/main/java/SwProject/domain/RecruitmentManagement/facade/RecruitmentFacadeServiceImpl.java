@@ -6,6 +6,7 @@ import SwProject.domain.RecruitmentManagement.domain.recruitment.dto.*;
 import SwProject.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentAccept.service.RecruitmentAcceptService;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentAssignmentDto;
+import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentWaitingUserInfoDto;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.service.RecruitmentWaitingService;
 import SwProject.domain.center.childCenter.model.ChildCenter;
@@ -67,6 +68,7 @@ public class RecruitmentFacadeServiceImpl implements RecruitmentFacadeService{
                 .recruitment(recruitment)
                 .volunteer(volunteer)
                 .recruitmentDates(requestAssignmentDto.getRecruitmentDates())
+                .selfIntroduction(requestAssignmentDto.getSelfIntroduction())
                 .build();
 
         recruitmentWaitingService.addVolunteerToRecruitment(recruitmentAssignmentDto);
@@ -113,6 +115,11 @@ public class RecruitmentFacadeServiceImpl implements RecruitmentFacadeService{
     @Override
     public void deleteVolunteerFromRecruitmentWaiting(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
         recruitmentWaitingService.deleteFromWaitingList(recruitmentId, volunteerId, recruitmentDate);
+    }
+
+    @Override
+    public RecruitmentWaitingUserInfoDto showWaitingUserDetailInfo(Long userId) {
+        return recruitmentWaitingService.showWaitingUserDetailInfo(userId);
     }
 
     @Transactional(readOnly = true)

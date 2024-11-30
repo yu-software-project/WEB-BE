@@ -30,12 +30,28 @@ public class Manager {
     @Column(nullable = false, length = 10)
     private ManagerRoleEnum role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private ApprovalStatus approvalStatus = ApprovalStatus.NOT_APPROVED;
+
+    @Column(nullable = false)
+    private String approvalStatusReason = "아직 회원가입 승인을 기다리고 있습니다.";
+
     @OneToOne(cascade = CascadeType.REMOVE) //해당 db삭제시, 연결된 db 모두 삭제됨
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
 
     public enum ManagerRoleEnum {
         User, ADMIN
+    }
+
+    public enum ApprovalStatus {
+        APPROVED,
+        NOT_APPROVED;
+    }
+
+    public void updateApprovalStatusReason(String reason){
+        this.approvalStatusReason = reason;
     }
 
 }

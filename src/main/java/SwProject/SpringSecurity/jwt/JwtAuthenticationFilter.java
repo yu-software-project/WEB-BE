@@ -1,5 +1,6 @@
 package SwProject.SpringSecurity.jwt;
 
+import SwProject.Exception.collections.business.NotApprovalException;
 import SwProject.Exception.collections.business.TokenMissingException;
 import SwProject.Exception.dto.ExceptionDto;
 import SwProject.Exception.message.CommonExceptionMessage;
@@ -28,6 +29,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static SwProject.Exception.message.TokenExceptonMessage.NotApprovalExceptionMessage;
 
 @Component
 @RequiredArgsConstructor
@@ -90,6 +93,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             writeJsonToResponse(
                     response,
                     TokenExceptonMessage.InvalidJwtToken,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        } catch (NotApprovalException e){ //웹에서 기관 관리자의 회원가입이 아직 미승인 처리인 경우
+            writeJsonToResponse(
+                    response,
+                    NotApprovalExceptionMessage,
                     HttpStatus.UNAUTHORIZED.value()
             );
             return;

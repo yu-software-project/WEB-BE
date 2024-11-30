@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  db:
-    image: mysql:8.0.34
-    container_name: mysql-container
-    ports:
-      - "3306:3306"

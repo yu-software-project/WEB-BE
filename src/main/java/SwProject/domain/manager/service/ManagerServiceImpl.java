@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -28,6 +30,7 @@ public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final String BasicApprovalStatusReason = "승인을 기다려주세요.";
 
     @Override
     public void checkExits(WebSignUpDto.ceoInfo manager) {
@@ -46,6 +49,8 @@ public class ManagerServiceImpl implements ManagerService {
                 .password(encodePassword)
                 .phoneNum(manager.getPhoneNum())
                 .role(Manager.ManagerRoleEnum.User)
+                .approvalStatus(Manager.ApprovalStatus.NOT_APPROVED)
+                .approvalStatusReason(BasicApprovalStatusReason)
                 .childCenter(managerRegisterDto.getChildCenter())
                 .build();
 
@@ -77,6 +82,12 @@ public class ManagerServiceImpl implements ManagerService {
                 .accessTokenDto(accessTokenDto)
                 .refreshTokenDto(refreshTokenDto)
                 .build();
+    }
+
+    @Override
+    public Manager findByCenterId(Long centerId) {
+        return managerRepository.findByChildCenterId(centerId)
+                .orElseThrow(() -> new NotFoundException("해당하는 매니저를 찾을 수 없습니다."));
     }
 
 }

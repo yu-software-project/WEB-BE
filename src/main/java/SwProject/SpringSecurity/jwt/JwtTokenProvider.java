@@ -79,7 +79,6 @@ public class JwtTokenProvider {
                 .accessToken(jwt)
                 .accessTokenExpiredTime(accessExpiredTime)
                 .build();
-
     }
 
     public RefreshTokenDto createRefreshToken(String id, String roles ) {
@@ -87,7 +86,6 @@ public class JwtTokenProvider {
 
         Date now = new Date();
         Date refreshExpiredTime = new Date(now.getTime() + refreshTokenExpirationMinutes );
-
 
         String jwt = Jwts.builder()
                 .header().type(JwtConstants.JWT)

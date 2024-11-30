@@ -4,6 +4,7 @@ import SwProject.Exception.collections.InputValid.BindingErrors;
 import SwProject.config.constant.ControllerConstants;
 import SwProject.domain.RecruitmentManagement.domain.recruitment.dto.*;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentAccept.dto.PerVolunteerByDateDto;
+import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentWaitingUserInfoDto;
 import SwProject.domain.RecruitmentManagement.facade.RecruitmentFacadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,7 +43,6 @@ public class WebRecruitmentController {
         recruitmentFacadeService.createRecruitment(requestRecruitmentDto);
         return new ResponseEntity<>(ControllerConstants.completecreateRecruitment, HttpStatus.OK);
     }
-
 
     @Transactional
     @Operation(summary = "봉사공고 업데이트 api", description = "봉사공고 업데이트 api")
@@ -128,6 +128,20 @@ public class WebRecruitmentController {
     public ResponseEntity<String> acceptVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
         recruitmentFacadeService.acceptVolunteer(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
         return new ResponseEntity<>(completeAcceptVolunteer, HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/user/info/{user_id}")
+    @Operation(summary = "유저 상세 정보 조회", description = "봉사를 신청한 유저의 상세 정보 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved user info",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RecruitmentWaitingUserInfoDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<?> showDetailUserInfo(@PathVariable("user_id") Long userId) {
+        RecruitmentWaitingUserInfoDto userInfoDto = recruitmentFacadeService.showWaitingUserDetailInfo(userId);
+        return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
     }
 
     @PostMapping("/delete/accept")

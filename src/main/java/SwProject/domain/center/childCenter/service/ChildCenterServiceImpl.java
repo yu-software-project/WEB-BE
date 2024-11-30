@@ -3,12 +3,15 @@ package SwProject.domain.center.childCenter.service;
 import SwProject.Exception.collections.business.CenterNotFoundException;
 import SwProject.Exception.collections.business.ChildCenterAlreadyExitsException;
 import SwProject.Exception.collections.business.DuplicateUniqueKeyException;
+import SwProject.businessProcess.auth.web.dto.CenterDetailInfoReq;
+import SwProject.businessProcess.auth.web.dto.CenterNameListReq;
 import SwProject.businessProcess.auth.web.dto.WebSignUpDto;
 import SwProject.businessProcess.facade.dto.CenterForeignKeyDto;
 import SwProject.businessProcess.facade.dto.ManagerRegisterDto;
 import SwProject.domain.center.childCenter.dto.put.RequestFindWordDto;
 import SwProject.domain.center.childCenter.repository.ChildCenterRepository;
 import SwProject.domain.center.childCenter.model.ChildCenter;
+import SwProject.domain.manager.model.Manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,26 +39,26 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public List<ChildCenter> findChildCenter(RequestFindWordDto requestDto) {
+    public List<ChildCenter> findChildCenterByWord(RequestFindWordDto requestDto) {
 
         List<ChildCenter> centers = childCenterRepository.findByRoadAddressContaining(requestDto.getFindWord());
-
         if(!centers.isEmpty()) return centers;
-
         centers = childCenterRepository.findByCenterNameContaining(requestDto.getFindWord());
-
         if(centers.isEmpty()) throw new CenterNotFoundException();
-
         return centers;
-
     }
 
     @Override
     public ChildCenter findById(Long id) {
         ChildCenter childCenter = childCenterRepository.findById(id)
                 .orElseThrow(() -> new CenterNotFoundException());
-
+        childCenter.checkOnActivate();
         return childCenter;
+    }
+
+    @Override
+    public List<CenterNameListReq> showCenterSummary(Manager.ApprovalStatus approvalStatus) {
+        return childCenterRepository.findCenterNameListByApprovalStatus(approvalStatus);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package SwProject.domain.RecruitmentManagement.facade;
 
 import SwProject.domain.RecruitmentManagement.domain.recruitment.dto.*;
+import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentWaitingUserInfoDto;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,5 @@ public interface RecruitmentFacadeService {
     RecruitmentPageDto findByNameWithPagination(RequestFindByName requestFindByName, Pageable pageable);
     void deleteVolunteerFromRecruitmentAccept (Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
     void deleteVolunteerFromRecruitmentWaiting (Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
+    RecruitmentWaitingUserInfoDto showWaitingUserDetailInfo(Long userId);
 }

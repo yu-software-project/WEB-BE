@@ -22,6 +22,10 @@ public class QManager extends EntityPathBase<Manager> {
 
     public static final QManager manager = new QManager("manager");
 
+    public final EnumPath<Manager.ApprovalStatus> approvalStatus = createEnum("approvalStatus", Manager.ApprovalStatus.class);
+
+    public final StringPath approvalStatusReason = createString("approvalStatusReason");
+
     public final SwProject.domain.center.childCenter.model.QChildCenter childCenter;
 
     public final StringPath emailId = createString("emailId");

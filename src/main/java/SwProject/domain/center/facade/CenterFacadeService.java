@@ -11,6 +11,6 @@ import java.util.List;
 public interface CenterFacadeService {
     void addLikeCenter(RequestLikeCenterDto rerequestLikeCenterDto);
     List<ResponseChildCenterToAppDto> searchCenterWithLike();
-    List<ChildCenter> findChildCenter(RequestFindWordDto requestFindWordDto);
+    List<ChildCenter> findChildCenterByWord(RequestFindWordDto requestFindWordDto);
     List<ResponseChildCenterDetailDto> convertResponseToWeb(List<ChildCenter> centers);
 }

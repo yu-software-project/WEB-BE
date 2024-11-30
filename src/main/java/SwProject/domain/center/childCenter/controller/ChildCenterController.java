@@ -37,10 +37,10 @@ public class ChildCenterController {
                     content = @Content)
     })
     @PostMapping("/search/app")
-    public ResponseEntity<?> findChildCenter(@RequestBody @Valid RequestFindWordDto requestFindWordDto, BindingResult bindingResult) throws IOException {
+    public ResponseEntity<?> findChildCenterByWord(@RequestBody @Valid RequestFindWordDto requestFindWordDto, BindingResult bindingResult) throws IOException {
         handleBindingErrors(bindingResult);
 
-        List<ChildCenter> centers = centerFacadeService.findChildCenter(requestFindWordDto);
+        List<ChildCenter> centers = centerFacadeService.findChildCenterByWord(requestFindWordDto);
         List<ResponseChildCenterDetailDto> response = centerFacadeService.convertResponseToWeb(centers);
 
         return ResponseEntity.ok(response);

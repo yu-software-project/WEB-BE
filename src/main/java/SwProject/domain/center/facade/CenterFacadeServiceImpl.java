@@ -67,12 +67,11 @@ public class CenterFacadeServiceImpl implements CenterFacadeService {
                         .detailAddress(likeCenter.getChildCenter().getDetailAddress())
                         .build())
                 .collect(Collectors.toList());
-
     }
 
     @Override
-    public List<ChildCenter> findChildCenter(RequestFindWordDto requestFindWordDto) {
-        return childCenterService.findChildCenter(requestFindWordDto);
+    public List<ChildCenter> findChildCenterByWord(RequestFindWordDto requestFindWordDto) {
+        return childCenterService.findChildCenterByWord(requestFindWordDto);
     }
 
     @Override

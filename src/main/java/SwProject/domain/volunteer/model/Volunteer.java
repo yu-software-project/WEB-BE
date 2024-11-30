@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -57,6 +58,14 @@ public class Volunteer {
     public void setGender(boolean gender) {
      if(gender) this.gender = Gender.MAIL;
      else this.gender = Gender.FEMAIL;
+    }
+
+    public String getFormattedBirthDate() {
+        if (birth != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return birth.format(formatter);
+        }
+        return null;  // birth가 null인 경우 null을 반환
     }
 
 }

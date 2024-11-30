@@ -37,5 +37,7 @@ public class RecruitmentWaiting {
     @JoinColumn(name = "recruitment_id")
     private Recruitment recruitment;
 
+    @Column
+    private String selfIntroduction; //한 줄 소개
 
 }

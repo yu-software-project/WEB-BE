@@ -13,4 +13,5 @@ import java.util.List;
 public class RequestAssignmentDto {
     private Long RecruitmentId;
     private List<LocalDate> recruitmentDates;
+    private String selfIntroduction;
 }
