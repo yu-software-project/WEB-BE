@@ -67,9 +67,9 @@ public class ManagerServiceImpl implements ManagerService {
         //이메일 존재하지 않는 경우
         if(!found.isPresent()) throw new UsernameNotFoundException();
         //비밀번호 다른 경우
-//        if(!passwordEncoder.matches(webSignInDto.getPassword(), found.get().getPassword())){
-//            throw new PasswordNotMatchException();
-//        }
+        if(!passwordEncoder.matches(webSignInDto.getPassword(), found.get().getPassword())){
+            throw new PasswordNotMatchException();
+        }
 
         //토큰 발급
         AccessTokenDto accessTokenDto = jwtTokenProvider.createAccessToken(found.get().getEmailId(), String.valueOf(found.get().getRole()));

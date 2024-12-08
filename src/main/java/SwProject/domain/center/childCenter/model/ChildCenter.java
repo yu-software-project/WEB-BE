@@ -29,10 +29,10 @@ public class ChildCenter {
     @Column(nullable = false, unique = true, length = 255)
     private String centerName;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, length = 255)
     private String roadAddress;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, length = 255)
     private String detailAddress;
 
     @Column(nullable = false, unique = true, length = 255)
