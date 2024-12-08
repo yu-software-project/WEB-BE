@@ -13,9 +13,9 @@ public interface RecruitmentFacadeService {
     RecruitmentPageDto getRecruitments(Pageable pageable);
     void addVolunteerToRecruitment(RequestAssignmentDto requestAssignmentDto);
     VolunteerByDateResponseDto getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate);
-    void acceptVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
+    void acceptVolunteer(Long recruitmentId, Long volunteerId);
     RecruitmentPageDto findByNameWithPagination(RequestFindByName requestFindByName, Pageable pageable);
-    void deleteVolunteerFromRecruitmentAccept (Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
-    void deleteVolunteerFromRecruitmentWaiting (Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
+    void deleteVolunteerFromRecruitmentAccept (Long recruitmentId, Long volunteerId);
+    void deleteVolunteerFromRecruitmentWaiting (Long recruitmentId, Long volunteerId);
     RecruitmentWaitingUserInfoDto showWaitingUserDetailInfo(Long userId);
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface RecruitmentAcceptRepositoryCustom {
     List<Volunteer> findVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildenter);
-    Optional<RecruitmentAccept> findByRecruitmentIdAndVolunteerIdAndRecruitmentDate(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
+    Optional<RecruitmentAccept> findByRecruitmentIdAndVolunteerId(Long recruitmentId, Long volunteerId);
     boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto);
     int countCompletedRecruitmentsByVolunteer(Volunteer volunteer);
 }

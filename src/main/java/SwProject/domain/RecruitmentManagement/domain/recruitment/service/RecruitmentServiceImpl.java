@@ -59,39 +59,13 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     public void updateRecruitment(RequestRecruitmentUpdateDto updateRecruitmentDto, ChildCenter childCenter) {
-        LocalDate todayDate = LocalDate.now();
 
         Recruitment existingRecruitment = recruitmentRepository.findById(updateRecruitmentDto.getId());
         RequestRecruitmentDto rqRecruitmentDto = updateRecruitmentDto.getNewRecruitmentDto();
 
         if(existingRecruitment==null) throw new DatabaseNotFoundException(RecruitmentDatabaseNotFoundException);
 
-        String detailInfo = rqRecruitmentDto.getDetailInfo();
-        if(detailInfo==null || detailInfo==""){
-            detailInfo=initRecruitmentDetailInfo;
-        }
-
-        Recruitment newRecruitment = Recruitment.builder()
-                .name(rqRecruitmentDto.getName())
-                .recruitmentStartDate(todayDate)
-                .recruitmentEndDate(rqRecruitmentDto.getRecruitmentEndDate())
-                .isTimeExits(rqRecruitmentDto.isTimeExits())
-                .startTime(rqRecruitmentDto.getStartTime())
-                .endTime(rqRecruitmentDto.getEndTime())
-                .startDate(rqRecruitmentDto.getStartDate())
-                .endDate(rqRecruitmentDto.getEndDate())
-                .isRepeatedDate(rqRecruitmentDto.getIsRepeatedDate())
-                .repeatedDays(convertToDaysOfWeek(rqRecruitmentDto.getRepeatedDays()))
-                .view(initRecruitmentView)
-                .currentApplicants(initRecruitmentCurrentApplicants)
-                .totalApplicants(rqRecruitmentDto.getTotalApplicants())
-                .detailInfo(detailInfo)
-                .childCenter(existingRecruitment.getChildCenter())
-                .build();
-
-        recruitmentRepository.delete(existingRecruitment);
-        recruitmentRepository.save(newRecruitment);
-
+        existingRecruitment.updateRecruitment(rqRecruitmentDto, convertToDaysOfWeek(rqRecruitmentDto.getRepeatedDays()));
     }
 
     @Transactional(readOnly = true)

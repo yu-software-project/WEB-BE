@@ -67,7 +67,6 @@ public class RecruitmentFacadeServiceImpl implements RecruitmentFacadeService{
         RecruitmentAssignmentDto recruitmentAssignmentDto = RecruitmentAssignmentDto.builder()
                 .recruitment(recruitment)
                 .volunteer(volunteer)
-                .recruitmentDates(requestAssignmentDto.getRecruitmentDates())
                 .selfIntroduction(requestAssignmentDto.getSelfIntroduction())
                 .build();
 
@@ -102,19 +101,19 @@ public class RecruitmentFacadeServiceImpl implements RecruitmentFacadeService{
     }
 
     @Override
-    public void acceptVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
-        recruitmentAcceptService.acceptVolunteer(recruitmentId, volunteerId, recruitmentDate);
-        recruitmentWaitingService.deleteFromWaitingList(recruitmentId, volunteerId, recruitmentDate);
+    public void acceptVolunteer(Long recruitmentId, Long volunteerId) {
+        recruitmentAcceptService.acceptVolunteer(recruitmentId, volunteerId);
+        recruitmentWaitingService.deleteFromWaitingList(recruitmentId, volunteerId);
     }
 
     @Override
-    public void deleteVolunteerFromRecruitmentAccept(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
-        recruitmentAcceptService.deleteVolunteer(recruitmentId, volunteerId, recruitmentDate);
+    public void deleteVolunteerFromRecruitmentAccept(Long recruitmentId, Long volunteerId) {
+        recruitmentAcceptService.deleteVolunteer(recruitmentId, volunteerId);
     }
 
     @Override
-    public void deleteVolunteerFromRecruitmentWaiting(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
-        recruitmentWaitingService.deleteFromWaitingList(recruitmentId, volunteerId, recruitmentDate);
+    public void deleteVolunteerFromRecruitmentWaiting(Long recruitmentId, Long volunteerId) {
+        recruitmentWaitingService.deleteFromWaitingList(recruitmentId, volunteerId);
     }
 
     @Override

@@ -28,9 +28,4 @@ public class RecruitmentAccept {
     @ManyToOne
     @JoinColumn(name = "recruitment_id", nullable = false)
     private Recruitment recruitment;
-
-    @ElementCollection
-    @CollectionTable(name = "recruitment_accept_dates", joinColumns = @JoinColumn(name = "recruitment_accept_id"))
-    @Column(name = "recruitment_date", nullable = false)
-    private List<LocalDate> recruitmentDates;
 }

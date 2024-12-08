@@ -28,7 +28,6 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
         RecruitmentWaiting recruitmentWaiting = RecruitmentWaiting.builder()
                 .volunteer(recruitmentAssignmentDto.getVolunteer())
                 .recruitment(recruitmentAssignmentDto.getRecruitment())
-                .recruitmentDates(recruitmentAssignmentDto.getRecruitmentDates())
                 .selfIntroduction(recruitmentAssignmentDto.getSelfIntroduction())
                 .build();
 
@@ -44,8 +43,8 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
 
     @Transactional
     @Override
-    public void deleteFromWaitingList(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
-        RecruitmentWaiting recruitmentWaiting = recruitmentWaitingRepository.findByRecruitmentIdAndVolunteerIdAndRecruitmentDatesContains(recruitmentId, volunteerId, recruitmentDate)
+    public void deleteFromWaitingList(Long recruitmentId, Long volunteerId) {
+        RecruitmentWaiting recruitmentWaiting = recruitmentWaitingRepository.findByRecruitmentIdAndVolunteerId(recruitmentId, volunteerId)
                 .orElseThrow(() -> new IllegalArgumentException("Waiting list entry not found"));
 
         recruitmentWaitingRepository.delete(recruitmentWaiting);

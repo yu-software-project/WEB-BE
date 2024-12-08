@@ -12,5 +12,4 @@ import java.time.LocalDate;
 public class PerVolunteerByDateDto {
     private Long recruitmentId;
     private Long volunteerId;
-    private LocalDate recruitmentDate;
 }

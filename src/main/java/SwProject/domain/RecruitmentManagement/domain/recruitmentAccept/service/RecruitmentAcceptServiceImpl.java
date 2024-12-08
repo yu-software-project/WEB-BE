@@ -30,18 +30,17 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
 
     @Transactional
     @Override
-    public void acceptVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
+    public void acceptVolunteer(Long recruitmentId, Long volunteerId) {
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId);
         if(recruitment==null) throw new DatabaseNotFoundException(RecruitmentDatabaseNotFoundException);
 
         Volunteer volunteer = volunteerRepository.findVolunteerById(volunteerId);
         if( volunteer==null) throw new DatabaseNotFoundException(VolunteerDatabaseNotFoundException );
 
-        if (!isVolunteerAlreadyAccepted(volunteerId, recruitmentDate)) {
+        if (!isVolunteerAlreadyAccepted(volunteerId)) {
             RecruitmentAccept acceptList = RecruitmentAccept.builder()
                     .volunteer(volunteer)
                     .recruitment(recruitment)
-                    .recruitmentDates(List.of(recruitmentDate))
                     .build();
             recruitmentAcceptRepository.save(acceptList);
             recruitment.incrementCurrentApplicants();
@@ -53,8 +52,8 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
 
     @Override
     @Transactional
-    public void deleteVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
-        RecruitmentAccept recruitmentAccept = recruitmentAcceptRepository.findByRecruitmentIdAndVolunteerIdAndRecruitmentDate(recruitmentId, volunteerId, recruitmentDate)
+    public void deleteVolunteer(Long recruitmentId, Long volunteerId) {
+        RecruitmentAccept recruitmentAccept = recruitmentAcceptRepository.findByRecruitmentIdAndVolunteerId(recruitmentId, volunteerId)
                 .orElseThrow(() -> new DatabaseNotFoundException(VolunteerDatabaseNotFoundException ));
         recruitmentAcceptRepository.delete(recruitmentAccept);
         Recruitment recruitment = recruitmentAccept.getRecruitment();
@@ -63,8 +62,8 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
 
     @Transactional(readOnly = true)
     @Override
-    public boolean isVolunteerAlreadyAccepted(Long volunteerId, LocalDate date) {
-        return recruitmentAcceptRepository.existsByVolunteerIdAndRecruitmentDatesContains(volunteerId, date);
+    public boolean isVolunteerAlreadyAccepted(Long volunteerId) {
+        return recruitmentAcceptRepository.existsByVolunteerId(volunteerId);
     }
 
     @Override

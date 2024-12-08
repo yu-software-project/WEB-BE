@@ -17,5 +17,5 @@ public interface ManagerRepository extends JpaRepository<Manager, Long>, Queryds
     //List<Manager> findAll(Predicate predicate);
     //Predicate는 QueryDSL에서 제공하는 인터페이스로, 불리언(boolean) 값을 반환하는 함수를 나타냅니다.
     // 즉, 어떤 조건을 표현하는데 사용됩니다.
-    Optional<Manager> findByChildCenterId(Long centerId);
+    Optional<Manager> findByChildCenterIdAndApprovalStatus(Long centerId, Manager.ApprovalStatus approvalStatus);
 }

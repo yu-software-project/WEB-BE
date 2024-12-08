@@ -22,11 +22,6 @@ public class RecruitmentWaiting {
     @Column(name = "recruitment_waiting_id")
     private Long id;
 
-    @ElementCollection
-    @CollectionTable(name = "recruitment_waiting_dates", joinColumns = @JoinColumn(name = "recruitment_waiting_id"))
-    @Column(name = "recruitment_date")
-    private List<LocalDate> recruitmentDates;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "volunteer_id")

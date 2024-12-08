@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface RecruitmentWaitingRepository extends JpaRepository<RecruitmentWaiting, CrudRepository>, RecruitmentWaitingRepositoryCustom {
-    Optional<RecruitmentWaiting> findByRecruitmentIdAndVolunteerIdAndRecruitmentDatesContains(Long recruitmentId, Long volunteerId, LocalDate date);
+    Optional<RecruitmentWaiting> findByRecruitmentIdAndVolunteerId(Long recruitmentId, Long volunteerId);
     Optional<RecruitmentWaiting> findByVolunteerId(Long userId);
 }

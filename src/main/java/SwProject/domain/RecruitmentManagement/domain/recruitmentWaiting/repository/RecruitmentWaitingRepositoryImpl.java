@@ -23,8 +23,7 @@ public class RecruitmentWaitingRepositoryImpl implements RecruitmentWaitingRepos
                 .from(recruitmentWaiting)
                 .join(recruitmentWaiting.recruitment, recruitment)
                 .where(recruitment.id.eq(request.getRecruitmentId())
-                        .and(recruitment.childCenter.eq(fetchedChildCenter))
-                        .and(recruitmentWaiting.recruitmentDates.any().eq(request.getLocalDate())))
+                        .and(recruitment.childCenter.eq(fetchedChildCenter)))
                 .fetch();
     }
 
@@ -34,8 +33,7 @@ public class RecruitmentWaitingRepositoryImpl implements RecruitmentWaitingRepos
                 .selectFrom(recruitmentWaiting)
                 .join(recruitmentWaiting.recruitment, recruitment)
                 .where(recruitment.id.eq(requestAssignmentDto.getRecruitmentId())
-                        .and(recruitmentWaiting.volunteer.eq(volunteer))
-                        .and(recruitmentWaiting.recruitmentDates.any().in(requestAssignmentDto.getRecruitmentDates())))
+                        .and(recruitmentWaiting.volunteer.eq(volunteer)))
                 .fetch().size() > 0;
     }
 

@@ -1,5 +1,6 @@
 package SwProject.domain.RecruitmentManagement.domain.recruitment.model;
 
+import SwProject.domain.RecruitmentManagement.domain.recruitment.dto.RequestRecruitmentDto;
 import SwProject.domain.center.childCenter.model.ChildCenter;
 import SwProject.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +10,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import static SwProject.config.constant.DbInitConstants.initRecruitmentDetailInfo;
 
 @Entity
 @Getter
@@ -89,6 +92,23 @@ public class Recruitment {
         } else {
             throw new IllegalStateException("Cannot have fewer than zero current applicants.");
         }
+    }
+
+    public void updateRecruitment(RequestRecruitmentDto updateDto, DaysOfWeek daysOfWeek) {
+        this.name=updateDto.getName();
+        this.recruitmentEndDate=updateDto.getRecruitmentEndDate();
+        this.isTimeExits = updateDto.isTimeExits();
+        this.startTime=updateDto.getStartTime();
+        this.endTime=updateDto.getEndTime();
+        this.startDate=updateDto.getStartDate();
+        this.endDate=updateDto.getEndDate();
+        this.totalApplicants=updateDto.getTotalApplicants();
+        this.repeatedDays=daysOfWeek;
+        String detailInfo = updateDto.getDetailInfo();
+        if(detailInfo==null || detailInfo==""){
+            detailInfo=initRecruitmentDetailInfo;
+        }
+        this.detailInfo=detailInfo;
     }
 
 }

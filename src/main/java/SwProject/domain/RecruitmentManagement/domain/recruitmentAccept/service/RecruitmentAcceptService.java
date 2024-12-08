@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface RecruitmentAcceptService {
-    void acceptVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
-    void deleteVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
-    boolean isVolunteerAlreadyAccepted(Long volunteerId, LocalDate date);
+    void acceptVolunteer(Long recruitmentId, Long volunteerId);
+    void deleteVolunteer(Long recruitmentId, Long volunteerId);
+    boolean isVolunteerAlreadyAccepted(Long volunteerId);
     boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto);
     List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter);
     int countCompletedRecruitmentsByVolunteer(Volunteer volunteer);

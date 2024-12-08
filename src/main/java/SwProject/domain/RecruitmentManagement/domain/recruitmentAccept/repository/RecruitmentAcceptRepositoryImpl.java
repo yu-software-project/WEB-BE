@@ -27,20 +27,18 @@ public class RecruitmentAcceptRepositoryImpl implements RecruitmentAcceptReposit
                 .from(recruitmentAccept)
                 .join(recruitmentAccept.recruitment, recruitment)
                 .where(recruitment.id.eq(request.getRecruitmentId())
-                        .and(recruitment.childCenter.eq(fetchedChildCenter))
-                        .and(recruitmentAccept.recruitmentDates.any().eq(request.getLocalDate())))
+                        .and(recruitment.childCenter.eq(fetchedChildCenter)))
                 .fetch();
     }
 
     @Override
-    public Optional<RecruitmentAccept> findByRecruitmentIdAndVolunteerIdAndRecruitmentDate(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
+    public Optional<RecruitmentAccept> findByRecruitmentIdAndVolunteerId(Long recruitmentId, Long volunteerId) {
         QRecruitmentAccept recruitmentAccept = QRecruitmentAccept.recruitmentAccept;
 
         RecruitmentAccept result = queryFactory
                 .selectFrom(recruitmentAccept)
                 .where(recruitmentAccept.recruitment.id.eq(recruitmentId)
-                        .and(recruitmentAccept.volunteer.id.eq(volunteerId))
-                        .and(recruitmentAccept.recruitmentDates.any().eq(recruitmentDate)))
+                        .and(recruitmentAccept.volunteer.id.eq(volunteerId)))
                 .fetchOne();
 
         return Optional.ofNullable(result);
@@ -52,8 +50,7 @@ public class RecruitmentAcceptRepositoryImpl implements RecruitmentAcceptReposit
                 .selectFrom(recruitmentAccept)
                 .join(recruitmentAccept.recruitment, recruitment)
                 .where(recruitment.id.eq(requestAssignmentDto.getRecruitmentId())
-                        .and(recruitmentAccept.volunteer.eq(volunteer))
-                        .and(recruitmentAccept.recruitmentDates.any().in(requestAssignmentDto.getRecruitmentDates())))
+                        .and(recruitmentAccept.volunteer.eq(volunteer)))
                 .fetch().size() > 0;
     }
 

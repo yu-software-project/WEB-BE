@@ -42,9 +42,6 @@ public class ChildCenter {
     @JoinColumn(name = "facility_introduction_id")
     private FacilityIntroduction facilityIntroduction;
 
-    @JoinColumn(nullable = false)
-    private boolean activate=false;
-
     @OneToOne(cascade = CascadeType.REMOVE) //해당 db삭제시, 연결된 db 모두 삭제됨
     @JoinColumn(name = "greetings_id")
     private Greetings greetings;
@@ -57,24 +54,5 @@ public class ChildCenter {
         return roadAddress+detailAddress;
     }
 
-    public void onActivate(){
-        if(activate==true){
-            throw new BusinessException("해당 기관은 이미 활성화 상태입니다.");
-        }
-        this.activate=true;
-    }
-
-    public void offActivate(){
-        if(activate==true){
-            throw new BusinessException("해당 기관은 이미 비활성화 상태입니다.");
-        }
-        this.activate=false;
-    }
-
-    public void checkOnActivate(){
-        if(activate!=true){
-            throw new BusinessException("해당 기관은 활성화 상태가 아닙니다.");
-        }
-    }
 
 }

@@ -15,6 +15,7 @@ public class JwtRedisServiceImpl implements JwtRedisService {
     private final RefreshTokenRepository refreshTokenRepository;
     @Override
     public RedisRefreshTokenDto save(RedisRefreshTokenDto redisRefreshTokenDto) {
+        System.out.println("너지");
        return refreshTokenRepository.save(redisRefreshTokenDto);
     }
 

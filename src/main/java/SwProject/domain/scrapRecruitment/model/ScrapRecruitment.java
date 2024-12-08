@@ -18,11 +18,11 @@ public class ScrapRecruitment {
     @Column(name = "scrap_recruitment_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recruitment_id", nullable = false)
     private Recruitment recruitment;
 

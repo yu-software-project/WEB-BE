@@ -13,6 +13,4 @@ import java.time.LocalDate;
 public class RequestVolunteersByDate {
     @NotNull
     private Long recruitmentId;
-    @NotNull
-    private LocalDate localDate;
 }

@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.Path;
 
 public interface AdminControllerApi {
     //승인 대기 기관 목록 반환
@@ -28,7 +27,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @GetMapping("/waiting/center/summary")
     ResponseEntity<?> showWaitingCenterSummary();
 
     //승인 완료 기관 목록 반환
@@ -41,7 +39,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @GetMapping("/center/summary")
     ResponseEntity<?> showCenterSummary();
 
     //승인 대기 특정 기관 상세 정보 반환
@@ -54,7 +51,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @GetMapping("waiting/center/detail/{center_id}")
     ResponseEntity<?> showWaitingCenterDetail(@PathVariable Long center_id);
 
     //승인 완료 특정 기관 상세 정보 반환
@@ -67,7 +63,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @GetMapping("/center/detail/{center_id}")
     ResponseEntity<?> showCenterDetail(@PathVariable Long center_id);
 
     @Transactional
@@ -79,7 +74,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @DeleteMapping("/center/delete/{center_id}")
     ResponseEntity<?> deleteCenter(@PathVariable Long center_id);
 
     @Transactional
@@ -91,7 +85,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @PostMapping("/center/register/refusal")
     ResponseEntity<?> refuseCenterRegister(@Valid @RequestBody CenterRegisterRefusalReason refusalReason, BindingResult bindingResult) throws MessagingException;
 
     @Transactional
@@ -103,7 +96,6 @@ public interface AdminControllerApi {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @PostMapping("/center/register/permit/{center_id}")
     ResponseEntity<?> permitCenterRegister(@PathVariable Long center_id);
 }
 

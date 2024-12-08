@@ -125,8 +125,8 @@ public class WebRecruitmentController {
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    public ResponseEntity<String> acceptVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
-        recruitmentFacadeService.acceptVolunteer(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+    public ResponseEntity<String> acceptVolunteer(@RequestBody @Valid PerVolunteerByDateDto perVolunteerByDateDto) {
+        recruitmentFacadeService.acceptVolunteer(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId());
         return new ResponseEntity<>(completeAcceptVolunteer, HttpStatus.OK);
     }
 
@@ -155,7 +155,7 @@ public class WebRecruitmentController {
                     content = @Content)
     })
     public ResponseEntity<String> deleteAcceptanceVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
-        recruitmentFacadeService.deleteVolunteerFromRecruitmentAccept(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+        recruitmentFacadeService.deleteVolunteerFromRecruitmentAccept(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId());
         return new ResponseEntity<>(completeDeleteWaitingVolunteer, HttpStatus.OK);
     }
 
@@ -170,7 +170,7 @@ public class WebRecruitmentController {
                     content = @Content)
     })
     public ResponseEntity<String> deleteWaitingVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
-        recruitmentFacadeService.deleteVolunteerFromRecruitmentWaiting(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+        recruitmentFacadeService.deleteVolunteerFromRecruitmentWaiting(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId());
         return new ResponseEntity<>(completeDeleteAcceptanceVolunteer, HttpStatus.OK);
     }
 

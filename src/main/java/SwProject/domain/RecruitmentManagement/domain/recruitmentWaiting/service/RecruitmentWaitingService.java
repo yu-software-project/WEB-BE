@@ -13,7 +13,7 @@ import java.util.List;
 public interface RecruitmentWaitingService {
     void addVolunteerToRecruitment(RecruitmentAssignmentDto recruitmentAssignmentDto);
     List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter);
-    void deleteFromWaitingList(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate);
+    void deleteFromWaitingList(Long recruitmentId, Long volunteerId);
     boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto);
     RecruitmentWaitingUserInfoDto showWaitingUserDetailInfo(Long userId);
 }

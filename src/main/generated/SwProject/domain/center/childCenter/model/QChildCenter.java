@@ -22,8 +22,6 @@ public class QChildCenter extends EntityPathBase<ChildCenter> {
 
     public static final QChildCenter childCenter = new QChildCenter("childCenter");
 
-    public final BooleanPath activate = createBoolean("activate");
-
     public final StringPath centerName = createString("centerName");
 
     public final StringPath ceoName = createString("ceoName");

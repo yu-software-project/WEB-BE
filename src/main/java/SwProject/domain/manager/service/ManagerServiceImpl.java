@@ -37,7 +37,6 @@ public class ManagerServiceImpl implements ManagerService {
         //해당 멤버가 존재하는지 확인
         Optional<Manager> found = this.managerRepository.findByEmailId(manager.getEmail());
         if(found.isPresent()) throw new UserAlreadyExistsException();
-
     }
 
     @Override
@@ -50,7 +49,6 @@ public class ManagerServiceImpl implements ManagerService {
                 .phoneNum(manager.getPhoneNum())
                 .role(Manager.ManagerRoleEnum.User)
                 .approvalStatus(Manager.ApprovalStatus.NOT_APPROVED)
-                .approvalStatusReason(BasicApprovalStatusReason)
                 .childCenter(managerRegisterDto.getChildCenter())
                 .build();
 
@@ -69,14 +67,15 @@ public class ManagerServiceImpl implements ManagerService {
         //이메일 존재하지 않는 경우
         if(!found.isPresent()) throw new UsernameNotFoundException();
         //비밀번호 다른 경우
-        if(!passwordEncoder.matches(webSignInDto.getPassword(), found.get().getPassword())){
-            throw new PasswordNotMatchException();
-        }
+//        if(!passwordEncoder.matches(webSignInDto.getPassword(), found.get().getPassword())){
+//            throw new PasswordNotMatchException();
+//        }
 
         //토큰 발급
         AccessTokenDto accessTokenDto = jwtTokenProvider.createAccessToken(found.get().getEmailId(), String.valueOf(found.get().getRole()));
         RefreshTokenDto refreshTokenDto = jwtTokenProvider.createRefreshToken(found.get().getEmailId(), String.valueOf(found.get().getRole()));
 
+        System.out.println("토큰 발급 확인");
         return AllJwtTokenDto
                 .builder()
                 .accessTokenDto(accessTokenDto)
@@ -85,9 +84,14 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public Manager findByCenterId(Long centerId) {
-        return managerRepository.findByChildCenterId(centerId)
+    public Manager findByCenterIdAndApproval(Long centerId, Manager.ApprovalStatus approvalStatus) {
+        return managerRepository.findByChildCenterIdAndApprovalStatus(centerId, approvalStatus)
                 .orElseThrow(() -> new NotFoundException("해당하는 매니저를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public void deleteManager(Manager manager) {
+        managerRepository.deleteById(manager.getId());
     }
 
 }

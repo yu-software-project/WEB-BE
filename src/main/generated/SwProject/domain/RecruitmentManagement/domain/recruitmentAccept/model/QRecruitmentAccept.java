@@ -26,8 +26,6 @@ public class QRecruitmentAccept extends EntityPathBase<RecruitmentAccept> {
 
     public final SwProject.domain.RecruitmentManagement.domain.recruitment.model.QRecruitment recruitment;
 
-    public final ListPath<java.time.LocalDate, DatePath<java.time.LocalDate>> recruitmentDates = this.<java.time.LocalDate, DatePath<java.time.LocalDate>>createList("recruitmentDates", java.time.LocalDate.class, DatePath.class, PathInits.DIRECT2);
-
     public final SwProject.domain.volunteer.model.QVolunteer volunteer;
 
     public QRecruitmentAccept(String variable) {

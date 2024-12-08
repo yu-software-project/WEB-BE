@@ -52,7 +52,6 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     public ChildCenter findById(Long id) {
         ChildCenter childCenter = childCenterRepository.findById(id)
                 .orElseThrow(() -> new CenterNotFoundException());
-        childCenter.checkOnActivate();
         return childCenter;
     }
 

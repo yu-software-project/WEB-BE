@@ -13,5 +13,6 @@ public interface ManagerService {
     void checkExits(WebSignUpDto.ceoInfo manager);
     void register(WebSignUpDto.ceoInfo manager, ManagerRegisterDto managerRegisterDto);
     AllJwtTokenDto signIn(WebSignInDto webSignInDto);
-    Manager findByCenterId(Long centerId);
+    Manager findByCenterIdAndApproval(Long centerId, Manager.ApprovalStatus approvalStatus);
+    void deleteManager(Manager manager);
 }
